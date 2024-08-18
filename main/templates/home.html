@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Neuron</title>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+                <h1>Determine Your Cat's Breed</h1>
+        </header>
+        <div class="content">
+            <div class="leftSide">
+                <p class="textUpImage">Just upload your cat photo<br>(jpg,ipeg,png,webb)</p>
+                <img src="https://wallpapers.com/images/featured/cat-background-b2las0zrosl6anik.jpg" alt="Decorative Image" class="decorativeImage">
+                <form class="formUpload" action="{% url 'classify_cat' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="formField">
+                        <input type="file" name="image" id="id_image" accept="image/*" required>
+                        {% if form.image.errors %}
+                            <div class="error">
+                                {{ form.image.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button class="submitButton" type="submit">Upload</button>
+                <p class="reasons">Why you don't get answer?<br>Reason 1. This breed doesn't exist in our list <br>Reason 2. Image doesn't have enough quality<br>Reason 3. There's no cat in the picture</p>
+                <details>
+                    <summary>Our Breed list:</summary>
+                    Our neural network is for testing, so result of predictions can be not enough accuracy
+                    <ul>
+                        <li>Bengal</li>
+                        <li>Bombay</li>
+                        <li>Domestic Long Hair</li>
+                        <li>Domestic Short Hair</li>
+                        <li>Persian</li>
+                        <li>Ragdoll</li>
+                        <li>Siamese</li>
+                        <li>Torbie</li>
+                        <li>Tortoiseshell</li>
+                        <li>Tuxedo</li>
+                    </ul>
+                </details>
+                </form>
+            </div>
+            <div class="rightSide">
+                {% if breed %}
+                    <p id="result">{{ breed }}</p>
+                    <img src="{{ image_url }}" alt="Uploaded Image" class="uploadedImage">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
